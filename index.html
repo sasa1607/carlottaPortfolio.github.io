@@ -2,54 +2,703 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfolio — Ton Nom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Dessins</title>
+  <meta name="description" content="Portfolio de dessins — galerie, projets, contact." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
-    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#0b0f14;color:#e8eef6}
-    .wrap{max-width:980px;margin:0 auto;padding:56px 20px}
-    .pill{display:inline-block;padding:6px 10px;border:1px solid #223044;border-radius:999px;color:#a8b6c7}
-    h1{font-size:44px;line-height:1.1;margin:16px 0}
-    p{color:#a8b6c7;font-size:18px;max-width:70ch}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:24px}
-    .card{border:1px solid #223044;border-radius:16px;padding:16px;background:rgba(255,255,255,.02)}
-    a{color:#7dd3fc;text-decoration:none}
-    a:hover{text-decoration:underline}
-    .btn{display:inline-block;margin-top:18px;padding:10px 14px;border-radius:12px;background:#0ea5e9;color:#001018}
-    .btn:hover{text-decoration:none;filter:brightness(1.05)}
-    .footer{margin-top:44px;color:#6f839b;font-size:14px}
+    :root{
+      --bg0:#070A10;
+      --bg1:#0B1020;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.12);
+      --txt: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --r: 22px;
+      --r2: 16px;
+      --accent1:#7C3AED;   /* violet */
+      --accent2:#22D3EE;   /* cyan */
+      --accent3:#A3FF12;   /* lime */
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--txt);
+      font-family:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1000px 600px at 15% 10%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 550px at 85% 20%, rgba(34,211,238,.25), transparent 55%),
+        radial-gradient(1000px 700px at 55% 90%, rgba(163,255,18,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1120px; margin:0 auto; padding:22px}
+    .noise{
+      position:fixed; inset:0; pointer-events:none; opacity:.06; mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    }
+
+    /* Top nav */
+    .nav{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(8,10,16,.72), rgba(8,10,16,.35));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:14px 22px;
+      max-width:1120px; margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.9));
+      box-shadow: 0 8px 24px rgba(124,58,237,.25);
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .nav-links{
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .chip{
+      padding:9px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18)}
+    .cta{
+      padding:10px 14px;
+      border-radius:14px;
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.85));
+      color: rgba(10,12,20,.95);
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 14px 36px rgba(34,211,238,.15);
+      transition: transform .18s ease, filter .18s ease;
+      white-space:nowrap;
+    }
+    .cta:hover{transform: translateY(-1px); filter:brightness(1.05)}
+
+    /* Hero */
+    .hero{padding:46px 0 22px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+    .hero-left{padding:26px}
+    .tag{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-weight:700;
+      font-size:13px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 0 18px rgba(124,58,237,.45);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+    .sub{
+      margin:0;
+      max-width:65ch;
+      color: var(--muted);
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height:1.55;
+    }
+    .hero-actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      font-weight:800;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.85));
+      color: rgba(10,12,20,.95);
+      border-color: rgba(255,255,255,.20);
+    }
+    .mono{font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+
+    .hero-right{
+      padding:18px;
+      display:grid;
+      grid-template-rows: 1fr auto;
+      gap:12px;
+    }
+    .preview{
+      position:relative;
+      border-radius: var(--r2);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(600px 250px at 20% 15%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(600px 250px at 70% 45%, rgba(34,211,238,.25), transparent 55%),
+        rgba(255,255,255,.04);
+      min-height: 240px;
+    }
+    .preview::after{
+      content:"";
+      position:absolute; inset:-40px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.13), transparent 45%);
+      transform: rotate(12deg);
+      opacity:.8;
+    }
+    .statrow{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    .stat{
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .stat b{display:block; font-size:18px}
+    .stat span{color:var(--muted2); font-size:13px; font-weight:700}
+
+    /* Section */
+    section{padding:18px 0}
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      margin: 12px 0 10px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-weight:600;
+      font-size:14px;
+    }
+
+    /* Filters */
+    .filters{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin: 10px 0 6px;
+    }
+    .filter{
+      cursor:pointer;
+      user-select:none;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:800;
+      font-size:13px;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    .filter:hover{transform: translateY(-1px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18)}
+    .filter.active{
+      color: rgba(10,12,20,.95);
+      border-color: rgba(255,255,255,.20);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.85));
+    }
+
+    /* Gallery */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .art{
+      grid-column: span 4;
+      border-radius: var(--r);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+      transform: translateZ(0);
+      transition: transform .18s ease, border-color .18s ease, filter .18s ease;
+      cursor:pointer;
+      position:relative;
+      min-height: 220px;
+    }
+    .art:hover{transform: translateY(-3px); border-color: rgba(255,255,255,.22); filter:brightness(1.03)}
+    .art img{
+      width:100%; height:220px; object-fit:cover; display:block;
+    }
+    .meta{
+      padding:12px 12px 14px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .meta h3{margin:0; font-size:16px; letter-spacing:-.2px}
+    .meta p{margin:3px 0 0; color:var(--muted2); font-size:13px; font-weight:700}
+    .badge{
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-weight:800;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0; z-index:60;
+      display:none;
+      align-items:center; justify-content:center;
+      padding:22px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(980px, 100%);
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(18,22,35,.72);
+      box-shadow: 0 24px 80px rgba(0,0,0,.55);
+      animation: pop .18s ease;
+    }
+    @keyframes pop {from{transform:scale(.98); opacity:.6} to{transform:scale(1); opacity:1}}
+    .modal-top{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 14px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      gap:12px;
+    }
+    .modal-top .title{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .modal-top b{font-size:14px}
+    .modal-top span{color:var(--muted2); font-size:12px; font-weight:700}
+    .x{
+      width:38px; height:38px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      cursor:pointer;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .x:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .modal-img{
+      width:100%; max-height: 70vh; object-fit:contain; display:block;
+      background: rgba(0,0,0,.25);
+    }
+
+    /* About + Contact */
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    .box{padding:18px}
+    .list{
+      display:grid; gap:10px; margin-top:12px;
+      color: var(--muted);
+      font-weight:600;
+    }
+    .li{
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .contact{
+      display:grid; gap:10px;
+      margin-top:12px;
+    }
+    .input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.92);
+      outline:none;
+      font-weight:650;
+    }
+    textarea.input{min-height:110px; resize:vertical}
+    .small{color:var(--muted2); font-size:13px; font-weight:700}
+
+    footer{
+      padding:30px 0 44px;
+      color: var(--muted2);
+      text-align:center;
+      font-weight:700;
+    }
+
+    /* Responsive */
+    @media (max-width: 940px){
+      .hero-grid{grid-template-columns:1fr}
+      .art{grid-column: span 6}
+      .two{grid-template-columns:1fr}
+    }
+    @media (max-width: 560px){
+      .nav-links{display:none}
+      .art{grid-column: span 12}
+      .statrow{grid-template-columns:1fr}
+      .hero{padding-top:32px}
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important; animation:none !important}
+      html{scroll-behavior:auto}
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <span class="pill">Sysadmin / IT / Dev</span>
-    <h1>Ton Nom 👋<br/>Je construis des trucs solides.</h1>
-    <p>
-      Petite bio (2 lignes). Exemple : Admin systèmes & réseaux / dev. Projets homelab, virtualisation, monitoring, etc.
-    </p>
+  <div class="noise"></div>
 
-    <a class="btn" href="https://www.linkedin.com/">Mon LinkedIn</a>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Accueil">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Portfolio<span style="opacity:.65">.</span></span>
+      </a>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Projet 1 — Homelab</h3>
-        <p>Proxmox / ESXi / VLAN / iSCSI TrueNAS…</p>
-        <a href="#">Voir le projet</a>
-      </div>
-      <div class="card">
-        <h3>Projet 2 — Monitoring</h3>
-        <p>Zabbix / Wazuh / alerting Mattermost…</p>
-        <a href="#">Voir le projet</a>
-      </div>
-      <div class="card">
-        <h3>Projet 3 — Réseau</h3>
-        <p>Stormshield / règles NAT/filtrage / segmentation…</p>
-        <a href="#">Voir le projet</a>
-      </div>
+      <nav class="nav-links" aria-label="Navigation">
+        <a class="chip" href="#galerie">Galerie</a>
+        <a class="chip" href="#a-propos">À propos</a>
+        <a class="chip" href="#contact">Contact</a>
+      </nav>
+
+      <a class="cta" href="#galerie">Voir mes dessins →</a>
     </div>
+  </header>
 
-    <div class="footer">
-      Contact : tonmail@exemple.com • GitHub : <a href="https://github.com/">@tonPseudo</a>
+  <main id="top" class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="card hero-left">
+          <span class="tag"><span class="dot"></span> Illustrations • Dessins • Croquis</span>
+
+          <h1>
+            Salut, moi c’est <span style="background:linear-gradient(135deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent;">Carlotta</span>.
+            <br/>Je dessine des univers.
+          </h1>
+
+          <p class="sub">
+            Bienvenue dans mon portfolio. Ici tu peux explorer mes dessins, croquis et projets.
+            Clique sur une image pour l’ouvrir en grand.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#galerie">Explorer la galerie</a>
+            <a class="btn" href="#contact"><span class="mono">✉</span> Me contacter</a>
+            <a class="btn" href="https://instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+          </div>
+        </div>
+
+        <div class="card hero-right">
+          <div class="preview" aria-hidden="true"></div>
+          <div class="statrow">
+            <div class="stat"><b id="countArt">12</b><span>dessins</span></div>
+            <div class="stat"><b>2026</b><span>année</span></div>
+            <div class="stat"><b>HD</b><span>preview</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="galerie">
+      <div class="section-head">
+        <div>
+          <h2>Galerie</h2>
+          <p>Filtre par catégorie, clique pour agrandir.</p>
+        </div>
+        <p class="mono">/ gallery</p>
+      </div>
+
+      <div class="filters" role="tablist" aria-label="Filtres galerie">
+        <button class="filter active" data-filter="all" type="button">Tout</button>
+        <button class="filter" data-filter="portrait" type="button">Portrait</button>
+        <button class="filter" data-filter="personnage" type="button">Personnage</button>
+        <button class="filter" data-filter="paysage" type="button">Paysage</button>
+        <button class="filter" data-filter="croquis" type="button">Croquis</button>
+      </div>
+
+      <div class="grid" id="grid">
+        <!-- Remplace les src par tes images (ou mets tes fichiers dans /images/) -->
+        <!-- Exemple: images/mon-dessin-1.jpg -->
+        <article class="art" data-cat="portrait" data-title="Portrait — Lumière" data-sub="Crayon • 2026" data-badge="Portrait">
+          <img src="https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70" alt="Portrait - Lumière">
+          <div class="meta">
+            <div>
+              <h3>Portrait — Lumière</h3>
+              <p>Crayon • 2026</p>
+            </div>
+            <span class="badge">Portrait</span>
+          </div>
+        </article>
+
+        <article class="art" data-cat="personnage" data-title="Personnage — Neon" data-sub="Digital • 2026" data-badge="Personnage">
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1200&q=70" alt="Personnage - Neon">
+          <div class="meta">
+            <div>
+              <h3>Personnage — Neon</h3>
+              <p>Digital • 2026</p>
+            </div>
+            <span class="badge">Personnage</span>
+          </div>
+        </article>
+
+        <article class="art" data-cat="paysage" data-title="Paysage — Brume" data-sub="Aquarelle • 2025" data-badge="Paysage">
+          <img src="https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70" alt="Paysage - Brume">
+          <div class="meta">
+            <div>
+              <h3>Paysage — Brume</h3>
+              <p>Aquarelle • 2025</p>
+            </div>
+            <span class="badge">Paysage</span>
+          </div>
+        </article>
+
+        <article class="art" data-cat="croquis" data-title="Croquis — Étude" data-sub="Carnet • 2026" data-badge="Croquis">
+          <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1200&q=70" alt="Croquis - Étude">
+          <div class="meta">
+            <div>
+              <h3>Croquis — Étude</h3>
+              <p>Carnet • 2026</p>
+            </div>
+            <span class="badge">Croquis</span>
+          </div>
+        </article>
+
+        <article class="art" data-cat="portrait" data-title="Portrait — Ombres" data-sub="Fusain • 2025" data-badge="Portrait">
+          <img src="https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=1200&q=70" alt="Portrait - Ombres">
+          <div class="meta">
+            <div>
+              <h3>Portrait — Ombres</h3>
+              <p>Fusain • 2025</p>
+            </div>
+            <span class="badge">Portrait</span>
+          </div>
+        </article>
+
+        <article class="art" data-cat="personnage" data-title="Personnage — Concept" data-sub="Digital • 2026" data-badge="Personnage">
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1200&q=70" alt="Personnage - Concept">
+          <div class="meta">
+            <div>
+              <h3>Personnage — Concept</h3>
+              <p>Digital • 2026</p>
+            </div>
+            <span class="badge">Personnage</span>
+          </div>
+        </article>
+
+        <!-- Duplique ces blocs pour ajouter plus de dessins -->
+      </div>
+    </section>
+
+    <!-- ABOUT + CONTACT -->
+    <section id="a-propos">
+      <div class="section-head">
+        <div>
+          <h2>À propos</h2>
+          <p>Un mini texte + ce que tu dessines.</p>
+        </div>
+        <p class="mono">/ about</p>
+      </div>
+
+      <div class="two">
+        <div class="card box">
+          <h3 style="margin:0 0 6px;">Mon style</h3>
+          <p class="sub" style="margin:0;">
+            Décris ton univers en 3–4 lignes : inspirations, techniques (crayon, digital, aquarelle),
+            thèmes (personnages, fantasy, portraits…), et ce que tu veux transmettre.
+          </p>
+
+          <div class="list">
+            <div class="li">🎨 Techniques : crayon • digital • aquarelle</div>
+            <div class="li">✨ Thèmes : portraits • personnages • ambiances</div>
+            <div class="li">📍 Basée en : France</div>
+          </div>
+        </div>
+
+        <div class="card box" id="contact">
+          <h3 style="margin:0 0 6px;">Contact</h3>
+          <p class="sub" style="margin:0;">
+            Tu peux me contacter via mail ou réseaux. (Le formulaire ci-dessous ouvre ton logiciel mail.)
+          </p>
+
+          <form class="contact" id="contactForm">
+            <input class="input" name="name" placeholder="Ton nom" required />
+            <input class="input" name="email" type="email" placeholder="Ton email" required />
+            <textarea class="input" name="message" placeholder="Ton message…" required></textarea>
+            <button class="btn primary" type="submit">Envoyer</button>
+            <div class="small">Astuce : remplace le mail dans le code par le tien.</div>
+          </form>
+
+          <div class="hero-actions" style="margin-top:10px">
+            <a class="btn" href="https://instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+            <a class="btn" href="https://tiktok.com/" target="_blank" rel="noreferrer">TikTok</a>
+            <a class="btn" href="https://www.behance.net/" target="_blank" rel="noreferrer">Behance</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> • Portfolio dessins • <span class="mono">sasa1607.github.io</span>
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Aperçu image">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="title">
+          <b id="mTitle">Titre</b>
+          <span id="mSub">Détails</span>
+        </div>
+        <button class="x" id="mClose" aria-label="Fermer">
+          ✕
+        </button>
+      </div>
+      <img class="modal-img" id="mImg" alt="Aperçu du dessin">
     </div>
   </div>
+
+  <script>
+    // ---- Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ---- Count artworks
+    const arts = Array.from(document.querySelectorAll(".art"));
+    document.getElementById("countArt").textContent = arts.length;
+
+    // ---- Filtering
+    const filters = Array.from(document.querySelectorAll(".filter"));
+    const grid = document.getElementById("grid");
+
+    function setActive(btn){
+      filters.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function applyFilter(cat){
+      arts.forEach(card => {
+        const ok = (cat === "all") || (card.dataset.cat === cat);
+        card.style.display = ok ? "" : "none";
+      });
+    }
+
+    filters.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cat = btn.dataset.filter;
+        setActive(btn);
+        applyFilter(cat);
+      });
+    });
+
+    // ---- Modal preview
+    const modal = document.getElementById("modal");
+    const mImg = document.getElementById("mImg");
+    const mTitle = document.getElementById("mTitle");
+    const mSub = document.getElementById("mSub");
+    const mClose = document.getElementById("mClose");
+
+    function openModal(src, title, sub){
+      mImg.src = src;
+      mTitle.textContent = title || "Dessin";
+      mSub.textContent = sub || "";
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    arts.forEach(card => {
+      card.addEventListener("click", () => {
+        const img = card.querySelector("img");
+        openModal(img.src, card.dataset.title, card.dataset.sub);
+      });
+    });
+
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal) closeModal();
+    });
+    mClose.addEventListener("click", closeModal);
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+
+    // ---- Contact form -> mailto (no backend needed)
+    const form = document.getElementById("contactForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = data.get("name");
+      const email = data.get("email");
+      const message = data.get("message");
+
+      // CHANGE THIS:
+      const to = "tonmail@exemple.com";
+
+      const subject = encodeURIComponent("Contact Portfolio — " + name);
+      const body = encodeURIComponent(
+        "Nom: " + name + "\n" +
+        "Email: " + email + "\n\n" +
+        message
+      );
+
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  </script>
 </body>
 </html>
