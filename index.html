@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Ton Nom</title>
+  <style>
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#0b0f14;color:#e8eef6}
+    .wrap{max-width:980px;margin:0 auto;padding:56px 20px}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid #223044;border-radius:999px;color:#a8b6c7}
+    h1{font-size:44px;line-height:1.1;margin:16px 0}
+    p{color:#a8b6c7;font-size:18px;max-width:70ch}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:24px}
+    .card{border:1px solid #223044;border-radius:16px;padding:16px;background:rgba(255,255,255,.02)}
+    a{color:#7dd3fc;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .btn{display:inline-block;margin-top:18px;padding:10px 14px;border-radius:12px;background:#0ea5e9;color:#001018}
+    .btn:hover{text-decoration:none;filter:brightness(1.05)}
+    .footer{margin-top:44px;color:#6f839b;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="pill">Sysadmin / IT / Dev</span>
+    <h1>Ton Nom 👋<br/>Je construis des trucs solides.</h1>
+    <p>
+      Petite bio (2 lignes). Exemple : Admin systèmes & réseaux / dev. Projets homelab, virtualisation, monitoring, etc.
+    </p>
+
+    <a class="btn" href="https://www.linkedin.com/">Mon LinkedIn</a>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Projet 1 — Homelab</h3>
+        <p>Proxmox / ESXi / VLAN / iSCSI TrueNAS…</p>
+        <a href="#">Voir le projet</a>
+      </div>
+      <div class="card">
+        <h3>Projet 2 — Monitoring</h3>
+        <p>Zabbix / Wazuh / alerting Mattermost…</p>
+        <a href="#">Voir le projet</a>
+      </div>
+      <div class="card">
+        <h3>Projet 3 — Réseau</h3>
+        <p>Stormshield / règles NAT/filtrage / segmentation…</p>
+        <a href="#">Voir le projet</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      Contact : tonmail@exemple.com • GitHub : <a href="https://github.com/">@tonPseudo</a>
+    </div>
+  </div>
+</body>
+</html>
